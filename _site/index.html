@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+	<title>SegmentSpy</title>
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/960.css">
+	<link rel="stylesheet" href="css/text.css">
+	<link rel="stylesheet" href="css/style.css">
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="js/lib/handlebars/handlebars-1.0.0.beta.6.js"></script>
+	<script src="js/lib/handlebars/handlebars-helpers.js"></script>
+	<script src="js/lib/sammy/sammy-0.7.1.min.js"></script>
+	<script src="js/lib/sammy/plugins/sammy.handlebars-0.7.1.min.js"></script>
+	<script src="js/lib/sammy/plugins/sammy.json-0.7.1.min.js"></script>
+	<script src="js/lib/d3/d3.min.js"></script>
+	<!--<script src="http://mbostock.github.com/d3/d3.v2.js"></script>-->
+	<script src="js/graph.js"></script>
+	<script src="js/app.js"></script>
+	
+	<!--[if lt IE 9]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+
+	
+	<script id="graph-template" type="text/x-handlebars-template">
+		
+		{{#each this.nodes}}
+			<div id="{{this.id}}" class="aBarchart" style="width:800px; height:200px; margin-top:50px"></div>
+		{{/each}}
+			
+	</script>
+	
+	<style>
+			rect.num_docs {
+				fill: green;
+			}
+			rect.b {
+				fill: orange;
+			}
+			rect.deleted_docs {
+				fill: red;
+			}
+
+		</style>
+	
+	<div class="container_12">
+		<div id="graphs"></div>
+	</div>
+	
+	
+
+
+</body>
+</html>
