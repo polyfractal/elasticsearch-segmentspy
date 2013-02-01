@@ -36,11 +36,13 @@ $(document).ready(function () {
 					global.pollID = setTimeout(function(){
 						$.getJSON("http://" + global.host + "/" + formattedIndex + "_segments/", function(data) {
 							var segments = {};
+							console.log(data);
 							$.each(data.indices[index].shards, function (shardKey, shardValue) {
 								$.each(shardValue, function(shardKeyPR, shardValuePR) {
 									
 									
 									$.each(shardValuePR.segments, function (k,v) {
+									console.log(shardKey + "_" +shardKeyPR);
 										var temp = {};
 											temp.id = k;
 											temp.num_docs = v.num_docs;
@@ -50,20 +52,21 @@ $(document).ready(function () {
 										
 										
 										//console.log(temp);
+										var divId = "node_" + shardValuePR.routing.node + "_" + shardKey + "_" +shardKeyPR;
 										
-										if (typeof segments[shardValuePR.routing.node] === 'undefined')
-											segments[shardValuePR.routing.node] = [];
+										if (typeof segments[divId] === 'undefined')
+											segments[divId] = [];
 										
-										segments[shardValuePR.routing.node].push(temp);
+										segments[divId].push(temp);
 									});
 									//console.log(v);
 								});
 							});
 							
 							
-							$.each(segments, function (node,segments) {
+							$.each(segments, function (divId,segments) {
 								$.each (segments, function (id, value) {
-									global.graphs[node].addData(value);
+									global.graphs[divId].addData(value);
 								});
 							});
 							
@@ -89,21 +92,40 @@ $(document).ready(function () {
 						context.cluster_name = state.cluster_name;
 						context.master_node = state.master_node;
 						//context.nodes = state.nodes;
-						context.nodes = [];
-						$.each(state.nodes, function (k,v) {
-							context.nodes.push({name: v.name, id: k});
+						context.nodes = {};
+						$.each(state.routing_table.indices.test.shards, function (shardId, shard) {
+							$.each(shard, function(prId, pr) {
+								if (typeof context.nodes[pr.node] === 'undefined') {
+									context.nodes[pr.node] = new Array();
+								}
+								
+								//css ids can't start with numbers, prepend with "node"
+								context.nodes[pr.node].push( {id: "node_" + pr.node + "_" + shardId + "_" + prId,
+															node: pr.node,
+															index: pr.index,
+															primary: pr.primary} );
+								
+								
+							});
+							
+						
+						
+							//context.nodes[nodeId] = {name: node.name, id: nodeId, shards: [] };
 						});
-						//console.log(context.nodes);
+						console.log(context.nodes);
 						
 						return context;	
 					})
+					
 					.render(global.graphTemplate)
 					.replace("#graphs")
 					.then(function() {
-						$.each(context.nodes, function (k,v) {
-							global.graphs[v.id] = getGrapher();
-							global.graphs[v.id].init(v.id);
-							global.graphs[v.id].displayStackedChart();
+						$.each(context.nodes, function (nodeId,node) {
+							$.each(node, function (k, div) {
+								global.graphs[div.id] = getGrapher();
+								global.graphs[div.id].init(div.id);
+								global.graphs[div.id].displayStackedChart();
+							});
 						});
 						
 						//

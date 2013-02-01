@@ -30,9 +30,12 @@
 	
 	<script id="graph-template" type="text/x-handlebars-template">
 		
-		{{#each this.nodes}}
-			<div id="{{this.id}}" class="aBarchart" style="width:800px; height:200px; margin-top:50px"></div>
-		{{/each}}
+		{{#eachProperty this.nodes}}
+			{{property}}
+			{{#each value}}
+				<div id="{{this.id}}" class="aBarchart" style="width:800px; height:200px; margin-top:50px"></div>
+			{{/each}}
+		{{/eachProperty}}
 			
 	</script>
 	

@@ -5,9 +5,10 @@ function getGrapher() {
 		propertyNames : ["num_docs", "deleted_docs"],
 	 
 		init : function (chartId) {
+			console.log(chartId);
 			this.chartId = chartId;
-			this.chartHeight = parseInt(document.getElementById(this.chartId).style.height);
-			this.chartWidth = parseInt(document.getElementById(this.chartId).style.width);
+			this.chartHeight = parseInt($("#"+this.chartId).height());
+			this.chartWidth = parseInt($("#"+this.chartId).width());
 			this.ceiling = 200;
 			this.y = d3.scale.linear().domain([0, this.ceiling]).range([0, this.chartHeight]);
 		},

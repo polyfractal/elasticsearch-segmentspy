@@ -119,3 +119,14 @@ Handlebars.registerHelper('nl2br', function(text) {
 	return new Handlebars.SafeString(nl2br);
 });
 
+
+Handlebars.registerHelper('eachProperty', function(context, options) {
+    var ret = "";
+    for(var prop in context)
+    {
+		console.log(prop);
+		console.log(context);
+        ret = ret + options.fn({property:prop,value:context[prop]});
+    }
+    return ret;
+});
