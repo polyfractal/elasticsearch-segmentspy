@@ -5,11 +5,18 @@ $(function(){
 function getGrapher() {
 
 	var grapher =  {
-
+//vAxis: {logScale: false},
 		options : {
 			title: 'Segments',
 			hAxis: {title: 'Segments', titleTextStyle: {color: 'red'}},
-			vAxis: {logScale: true},
+			
+			isStacked: true,
+			vAxes: {0: {logScale: true},
+					1: {logScale: true, maxValue:1000000}},
+			series:{
+			   0:{targetAxisIndex:0},
+			   1:{targetAxisIndex:0}},
+			bar: {groupWidth: "90%"},
 		},
 		
 		drawChart : function () {

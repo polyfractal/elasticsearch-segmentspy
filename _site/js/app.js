@@ -115,7 +115,7 @@ $(document).ready(function () {
 									if (typeof segments[divId] === 'undefined')
 										segments[divId] = [];
 										
-									segments[divId].push(['Segment ID', 'Mb']);
+									segments[divId].push(['Segment ID', 'Docs', 'Deleted Docs']);
 									
 									$.each(shardValuePR.segments, function (k,v) {
 									//console.log(shardKey + "_" +shardKeyPR);
@@ -125,10 +125,13 @@ $(document).ready(function () {
 											//temp.deleted_docs = v.deleted_docs,
 											//temp.size_in_bytes = v.size_in_bytes / 1024 / 1024;
 
+									
+										var deleted = 1+(Math.log(v.num_docs, + v.deleted_docs) / Math.LN10) - (Math.log(v.deleted_docs) / Math.LN10);
+										//var deleted = v.deleted_docs;
 										
 										
-										
-										segments[divId].push([k, Math.ceil(v.size_in_bytes / 1024 / 1024)]);
+										//segments[divId].push([k, Math.ceil(v.size_in_bytes / 1024 / 1024), v.deleted_docs]);
+										segments[divId].push([k, v.num_docs, deleted]);
 									});
 								});
 							});
