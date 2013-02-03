@@ -22,12 +22,10 @@ $(document).ready(function () {
 		global.loaded = false;
 		global.refreshInterval = 500;
 
-		//console.log(global.host);
 		
 		var app = Sammy("body", function() {
 			
 			this.use('Handlebars', 'hb');
-			//this.use('Session');
 
 			////////////////////////////////////////
 			this.helpers({
@@ -72,8 +70,6 @@ $(document).ready(function () {
 					var stateOptions = "?filter_metadata=true&filter_blocks=true";
 					context.load("http://" + global.host + "/_cluster/state" + stateOptions, loadOptions)
 						.then(function(state) {
-							//console.log(state);
-							
 							context.cluster_name = state.cluster_name;
 							context.master_node = state.master_node;
 							context.indices = [];
@@ -107,11 +103,10 @@ $(document).ready(function () {
 							return;
 						}
 							
-						console.log("Poll: " + index);
+						//console.log("Poll: " + index);
 						$.getJSON("http://" + global.host + "/" + formattedIndex + "_segments/", function(data) {
 							var segments = {};
-							
-							//console.log(data);
+
 							$.each(data.indices[index].shards, function (shardKey, shardValue) {
 								$.each(shardValue, function(shardKeyPR, shardValuePR) {
 									
@@ -177,11 +172,10 @@ $(document).ready(function () {
 				var stateOptions = "?filter_metadata=true&filter_blocks=true";
 				context.load("http://" + global.host + "/_cluster/state" + stateOptions, loadOptions)
 					.then(function(state) {
-						//console.log(state);
 						
 						context.cluster_name = state.cluster_name;
 						context.master_node = state.master_node;
-						//context.nodes = state.nodes;
+
 						context.nodes = {};
 						$.each(state.routing_table.indices[targetIndex].shards, function (shardId, shard) {
 							$.each(shard, function(prId, pr) {
@@ -199,9 +193,9 @@ $(document).ready(function () {
 							
 						
 						
-							//context.nodes[nodeId] = {name: node.name, id: nodeId, shards: [] };
+							
 						});
-						//console.log(context.nodes);
+
 						
 						return context;	
 					})
@@ -212,11 +206,9 @@ $(document).ready(function () {
 							$.each(node, function (k, div) {
 								global.graphs[div.id] = getGrapher();
 								global.graphs[div.id].init(div.id);
-								//global.graphs[div.id].displayStackedChart();
 							});
 						});
 						
-						//
 						context.poll(targetIndex);
 					});
 			});

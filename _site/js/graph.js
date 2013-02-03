@@ -1,6 +1,5 @@
 $(function(){
-    google.load("visualization", "1", {packages:["corechart"]});
-    //google.setOnLoadCallback(drawChartAjax);
+    google.load("visualization", "1", {packages:["corechart"]});;
 });
 
 function getGrapher() {
@@ -18,8 +17,6 @@ function getGrapher() {
 		},
 		
 		init :  function(divId) {
-			//google.load("visualization", "1", {packages:["corechart"]});
-			//google.setOnLoadCallback(this.drawChart);
 			this.chart = new google.visualization.ColumnChart(document.getElementById(divId));
 			
 		},
