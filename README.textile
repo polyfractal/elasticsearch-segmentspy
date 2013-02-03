@@ -21,6 +21,8 @@ h3. Usage
 
 Select your index from the dropdown box at the top of the page. A graph will be loaded for each shard on every node in your cluster, grouped by node. The refresh interval can be changed (default is 500ms) or paused completely.  That's it!  Fire up some inserts on your cluster to watch as ElasticSearch/Lucene creates new segments or merges away old ones.
 
+The graphs show the number of documents in each segment, plotted on a logarithmic scale.  Deleted docs are represented as a red, stacked bar.  If you hover over the blue "docs" bar, you can read the number of documents in that segment.  Unfortunately, Google Charts does not support logarithmic stacked charts, so the Deleted Docs bar is preprocessed to adjust it's size.  For this reason, the tooltip value of deleted docs is incorrect (but visually it is mostly accurate).
+
 
 
 h3. Background Information
