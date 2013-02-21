@@ -123,8 +123,8 @@ $(document).ready(function () {
 									if (typeof segments[divId] === 'undefined')
 										segments[divId] = [];
 										
-									segments[divId].push(['Segment ID', 'Searchable', 'Committed', 'Uncommitted', 'Deleted Docs']);
-									
+									segments[divId].push(['Segment ID', 'Fully Synced', 'Committed', 'Uncommitted', 'Deleted Docs']);
+									//	 flushed
 									$.each(shardValuePR.segments, function (k,v) {
 										
 											//bit of math to normalize our values, since Google Charts doesn't do stacked log scales.
@@ -139,12 +139,25 @@ $(document).ready(function () {
 											//artificially boost num_docs by one, so you can see very small segments
 											v.num_docs += 1;
 											
+											//fully committed/flushed and in memory
 											if (v.search === true && v.committed === true)
 												segments[divId].push([k, v.num_docs, 0, 0, deleted]);
-											else if (v.search === false && v.committed === true)
+												
+											//Lucene Committed to disk
+											else if (v.search === false && v.committed === true) {
 												segments[divId].push([k, 0, v.num_docs, 0, deleted]);
-											else
-												segments[divId].push([k, 0, 0, v.num_docs, deleted]);
+												//console.log('v.search === true && v.committed === false');
+											}
+											
+											//Resident in NRT IndexReader (in memory), not Lucene Committed yet
+											else if (v.search === true && v.committed === false){
+												segments[divId].push([k, 0, 0, v.num_docs,  deleted]);
+												//console.log(v);
+											}
+											
+											//After reading the ES source, this option does not appear possible
+											//else if (v.search === false && v.committed === false)
+											//	segments[divId].push([k, 0, 0, 0, v.num_docs, deleted]);
 										
 									});
 								});

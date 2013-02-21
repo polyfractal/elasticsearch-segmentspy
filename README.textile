@@ -3,7 +3,7 @@ h1. elasticsearch-segmentspy
 SegmentSpy is a tool to watch the segments in your indices. Segment graphs update in real-time, allowing you to watch as ElasticSearch (Lucene) merges your segments.
 
 |_. elasticsearch-segmentspy |_. ElasticSearch |
-| master | 0.17.0 -> master |
+| master | 0.17.0 -> 0.20.5 |
 
 *Note*: SegmentSpy has only been tested on 0.20.2 - 0.20.5, but should work all the way back to 0.17.0 when the Segments API was implemented
  
