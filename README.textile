@@ -5,7 +5,7 @@ SegmentSpy is a tool to watch the segments in your indices. Segment graphs updat
 |_. elasticsearch-segmentspy |_. ElasticSearch |
 | master | 0.17.0 -> master |
 
-*Note*: SegmentSpy has only been tested on 0.20.2, but should work all the way back to 0.17.0 when the Segments API was implemented
+*Note*: SegmentSpy has only been tested on 0.20.2 - 0.20.5, but should work all the way back to 0.17.0 when the Segments API was implemented
  
 h3. Installation
 
