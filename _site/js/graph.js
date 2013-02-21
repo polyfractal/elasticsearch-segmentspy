@@ -13,9 +13,7 @@ function getGrapher() {
 			isStacked: true,
 			vAxes: {0: {logScale: true},
 					1: {logScale: true, maxValue:1000000}},
-			series:{
-			   0:{targetAxisIndex:0},
-			   1:{targetAxisIndex:0}},
+			series:[{color: '#0008FF'}, {color: '#0099FF'},{color: 'orange'}, {color: 'red'}],
 			bar: {groupWidth: "90%"},
 		},
 		

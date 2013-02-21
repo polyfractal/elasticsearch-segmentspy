@@ -11,6 +11,9 @@ $(document).ready(function () {
 	   }
 	}
 
+	function log10(val) {
+		return Math.log(val) / Math.LN10;
+	}
 
 		var global = {};
 		global.homeTemplate = Handlebars.compile($("#home-template").html());
@@ -85,6 +88,11 @@ $(document).ready(function () {
 			
 			
 				poll: function(index) {
+				
+					//Kill caching for all subsequent caching requests
+					$.ajaxSetup ({ 
+						cache: false 
+					}); 
 					
 					var formattedIndex = index;
 					
@@ -115,38 +123,49 @@ $(document).ready(function () {
 									if (typeof segments[divId] === 'undefined')
 										segments[divId] = [];
 										
-									segments[divId].push(['Segment ID', 'Docs', 'Deleted Docs']);
+									segments[divId].push(['Segment ID', 'Searchable', 'Committed', 'Uncommitted', 'Deleted Docs']);
 									
 									$.each(shardValuePR.segments, function (k,v) {
-									//console.log(shardKey + "_" +shardKeyPR);
-										//var temp = [];
-											//temp.id = k;
-											//temp.num_docs = v.num_docs;
-											//temp.deleted_docs = v.deleted_docs,
-											//temp.size_in_bytes = v.size_in_bytes / 1024 / 1024;
-
-									
-										var deleted = 1+(Math.log(v.num_docs, + v.deleted_docs) / Math.LN10) - (Math.log(v.deleted_docs) / Math.LN10);
-										//var deleted = v.deleted_docs;
 										
+											//bit of math to normalize our values, since Google Charts doesn't do stacked log scales.
+											var total = v.num_docs + v.deleted_docs;
+											var deleted = 1 + log10(total) - log10(v.num_docs);
+											
+											if (deleted == 1)
+												deleted = 0;
+											else if (!isFinite(deleted))
+												deleted = 0;
+												
+											//artificially boost num_docs by one, so you can see very small segments
+											v.num_docs += 1;
+											
+											if (v.search === true && v.committed === true)
+												segments[divId].push([k, v.num_docs, 0, 0, deleted]);
+											else if (v.search === false && v.committed === true)
+												segments[divId].push([k, 0, v.num_docs, 0, deleted]);
+											else
+												segments[divId].push([k, 0, 0, v.num_docs, deleted]);
 										
-										//segments[divId].push([k, Math.ceil(v.size_in_bytes / 1024 / 1024), v.deleted_docs]);
-										segments[divId].push([k, v.num_docs, deleted]);
 									});
 								});
 							});
-							
-							
-							$.each(segments, function (divId, segmentList) {
-								segmentList = segmentList.sort(function(a,b) {
-									return parseInt(b[1]) - parseInt(a[1]);
+
+							if (segments !== {}) {
+								$.each(segments, function (divId, segmentList) {
+									segmentList = segmentList.sort(function(a,b) {
+										//we can do this because only one of these values will be >0 due to 
+										//the quirky need to abuse Google Charts for multicolor
+										var docsA = a[1] + a[2] + a[3];
+										var docsB = b[1] + b[2] + b[3];
+										return parseInt(docsB) - parseInt(docsA);
+									});
+									
+									global.graphs[divId].setData(segmentList);
+									global.graphs[divId].drawChart();
+									
+								
 								});
-								
-								global.graphs[divId].setData(segmentList);
-								global.graphs[divId].drawChart();
-								
-							
-							});
+							}
 
 							context.poll(index);
 						});
