@@ -42,6 +42,8 @@ $(document).ready(function () {
 						context.loadIndices();
 						context.jq_pauseButton();
 						context.jq_refreshInterval();
+            context.jq_changeHostButton();
+            $("#host").val(global.host);
 						global.loaded = true;
 					}
 				},
@@ -58,6 +60,13 @@ $(document).ready(function () {
 						$(this).toggleClass('btn-danger btn-success');
 					});
 				},
+
+        jq_changeHostButton: function() {
+          $("#changeHost").click(function(e) {
+            global.host = $("#host").val().replace(/http:\/\//g,"");
+
+          });
+        },
 				
 				jq_refreshInterval: function() {
 					$("#changeRefresh").click(function(e) {
