@@ -189,8 +189,9 @@ $(document).ready(function () {
 								});
 							}
 
-							context.poll(index);
-						});
+
+						})
+            .always(function() { context.poll(index); });
 					},global.refreshInterval);
 					
 				},				
