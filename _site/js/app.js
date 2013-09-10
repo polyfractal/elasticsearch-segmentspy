@@ -19,7 +19,8 @@ $(document).ready(function () {
 		global.homeTemplate = Handlebars.compile($("#home-template").html());
 		global.indicesTemplate = Handlebars.compile($("#indices-template").html());
 		global.graphTemplate = Handlebars.compile($("#graph-template").html());
-		global.host = window.location.host;
+		//global.host = window.location.host;
+		global.host = "search.aws1.gotinder.com/es/search1/";
 		global.graphs = [];
 		global.previousSegments = {};
 		global.loaded = false;
@@ -42,8 +43,8 @@ $(document).ready(function () {
 						context.loadIndices();
 						context.jq_pauseButton();
 						context.jq_refreshInterval();
-            context.jq_changeHostButton();
-            $("#host").val(global.host);
+            					context.jq_changeHostButton();
+            					$("#host").val(global.host);
 						global.loaded = true;
 					}
 				},
@@ -61,12 +62,15 @@ $(document).ready(function () {
 					});
 				},
 
-        jq_changeHostButton: function() {
-          $("#changeHost").click(function(e) {
-            global.host = $("#host").val().replace(/http:\/\//g,"");
+        			jq_changeHostButton: function() {
+				  var context = this;
+			          $("#changeHost").click(function(e) {
+				    global.host = $("#host").val().replace(/http:\/\//g,"");
+				    global.host = global.host.replace(/\/$/g, "");
 
-          });
-        },
+				    context.loadIndices();
+			          });
+			        },
 				
 				jq_refreshInterval: function() {
 					$("#changeRefresh").click(function(e) {
