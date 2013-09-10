@@ -19,8 +19,7 @@ $(document).ready(function () {
 		global.homeTemplate = Handlebars.compile($("#home-template").html());
 		global.indicesTemplate = Handlebars.compile($("#indices-template").html());
 		global.graphTemplate = Handlebars.compile($("#graph-template").html());
-		//global.host = window.location.host;
-		global.host = "search.aws1.gotinder.com/es/search1/";
+		global.host = window.location.host;
 		global.graphs = [];
 		global.previousSegments = {};
 		global.loaded = false;
