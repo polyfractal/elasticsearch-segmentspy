@@ -42,8 +42,8 @@ $(document).ready(function () {
 						context.loadIndices();
 						context.jq_pauseButton();
 						context.jq_refreshInterval();
-            context.jq_changeHostButton();
-            $("#host").val(global.host);
+            					context.jq_changeHostButton();
+            					$("#host").val(global.host);
 						global.loaded = true;
 					}
 				},
@@ -61,12 +61,15 @@ $(document).ready(function () {
 					});
 				},
 
-        jq_changeHostButton: function() {
-          $("#changeHost").click(function(e) {
-            global.host = $("#host").val().replace(/http:\/\//g,"");
+        			jq_changeHostButton: function() {
+				  var context = this;
+			          $("#changeHost").click(function(e) {
+				    global.host = $("#host").val().replace(/http:\/\//g,"");
+				    global.host = global.host.replace(/\/$/g, "");
 
-          });
-        },
+				    context.loadIndices();
+			          });
+			        },
 				
 				jq_refreshInterval: function() {
 					$("#changeRefresh").click(function(e) {
