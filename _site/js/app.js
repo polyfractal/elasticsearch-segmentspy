@@ -83,7 +83,7 @@ $(document).ready(function () {
 					
 					var loadOptions = 	{type: 'get', dataType: 'json'};
 					var stateOptions = "?filter_metadata=true&filter_blocks=true";
-					context.load("http://" + global.host + "/_cluster/state" + stateOptions, loadOptions)
+					context.load("//" + global.host + "/_cluster/state" + stateOptions, loadOptions)
 						.then(function(state) {
 							context.cluster_name = state.cluster_name;
 							context.master_node = state.master_node;
@@ -124,7 +124,7 @@ $(document).ready(function () {
 						}
 							
 						//console.log("Poll: " + index);
-						$.getJSON("http://" + global.host + "/" + formattedIndex + "_segments/", function(data) {
+						$.getJSON("//" + global.host + "/" + formattedIndex + "_segments/", function(data) {
 							var segments = {};
 
 							$.each(data.indices[index].shards, function (shardKey, shardValue) {
@@ -218,7 +218,7 @@ $(document).ready(function () {
 				
 				var loadOptions = 	{type: 'get', dataType: 'json'};
 				var stateOptions = "?filter_metadata=true&filter_blocks=true";
-				context.load("http://" + global.host + "/_cluster/state" + stateOptions, loadOptions)
+				context.load("//" + global.host + "/_cluster/state" + stateOptions, loadOptions)
 					.then(function(state) {
 						
 						context.cluster_name = state.cluster_name;
