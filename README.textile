@@ -6,13 +6,14 @@ SegmentSpy is a tool to watch the segments in your indices. Segment graphs updat
 | master | 0.17.0 -> 0.90.3 |
 
 *Note*: SegmentSpy has only been tested on 0.20.2 - 0.90.3, but should work all the way back to 0.17.0 when the Segments API was implemented
- 
+
 h3. Installation
 
 To install SegmentSpy onto your node, run <code>bin/plugin -install polyfractal/elasticsearch-segmentspy</code>
 
 SegmentSpy automatically connects to the host specified in the URL used to display the plugin.  For example, if you are running a node on <code>localhost:9200</code>,  point your browser to <code>http://localhost:9200/_plugin/segmentspy/</code>.  The plugin will automatically connect to <code>localhost:9200</code> and begin parsing your cluster state.
-
+Alternatively, it's possible to set a target host and refreshInterval via url parameters, for example:
+<code>http://localhost:8000/_site/#/myindex/?host=my-es-host.com:9200&refreshInterval=500</code>
 
 !screenshot.png!
 
